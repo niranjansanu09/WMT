@@ -22,6 +22,7 @@ const itemSchema = new mongoose.Schema(
       required: [true, "Material Type is required"],
       trim: true,
     },
+    
     description: {
       type: String,
       required: [true, "Description is required"],

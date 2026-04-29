@@ -1,16 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const defaultFormData = {
+  name: "",
+  category: "",
+  price: "",
+  materialType: "",
+  description: "",
+  imageUrl: "",
+};
 
 function ItemForm({ initialValues, onSubmit, submitText }) {
-  const [formData, setFormData] = useState(
-    initialValues || {
-      name: "",
-      category: "",
-      price: "",
-  materialType: "",
-      description: "",
-      imageUrl: "",
-    }
-  );
+  const [formData, setFormData] = useState({
+    ...defaultFormData,
+    ...(initialValues || {}),
+  });
+
+  useEffect(() => {
+    setFormData({
+      ...defaultFormData,
+      ...(initialValues || {}),
+    });
+  }, [initialValues]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,35 +40,40 @@ function ItemForm({ initialValues, onSubmit, submitText }) {
       <h2>{submitText}</h2>
 
       <label>Item Name</label>
-      <input name="name" value={formData.name} onChange={handleChange} required />
+      <input name="name" value={formData.name ?? ""} onChange={handleChange} required />
 
       <label>Category</label>
-      <input name="category" value={formData.category} onChange={handleChange} required />
+      <input name="category" value={formData.category ?? ""} onChange={handleChange} required />
 
       <label>Price</label>
       <input
         type="number"
         name="price"
-        value={formData.price}
+        value={formData.price ?? ""}
         onChange={handleChange}
         required
       />
 
-        <label>Material Type</label>
-      <input name="materialType" value={formData.materialType} onChange={handleChange} required />   
+      <label>Material Type</label>
+      <input
+        name="materialType"
+        value={formData.materialType ?? ""}
+        onChange={handleChange}
+        required
+      />
 
 
       <label>Description</label>
       <textarea
         name="description"
         rows="4"
-        value={formData.description}
+        value={formData.description ?? ""}
         onChange={handleChange}
         required
       />
 
       <label>Image URL</label>
-      <input name="imageUrl" value={formData.imageUrl} onChange={handleChange} />
+      <input name="imageUrl" value={formData.imageUrl ?? ""} onChange={handleChange} />
 
       <button className="btn primary" type="submit">{submitText}</button>
     </form>
